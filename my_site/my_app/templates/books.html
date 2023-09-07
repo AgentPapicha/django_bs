@@ -13,7 +13,7 @@
     </title>
 <body>
 <h1 style='font-size: 52px; color: #243f4d; text-align: center;'>
-    Hello world
+    ALL BOOKS
 </h1>
     <nav class="menu">
       <a class="menu__item" href="http://127.0.0.1:8000/my_app/books">All books</a>
@@ -30,31 +30,9 @@
         <a class="menu__item" href="http://127.0.0.1:8000/my_app/publishers">Publishers</a>
         <a class="menu__item" href="http://127.0.0.1:8000/my_app/publishers/expensive_books">Publishers with expensive books</a>
     </nav>
-<div style="background-image: url(/home/admin01/PycharmProjects/th.jpg)">
-    <h2 style='color: purple; text-align: center;'>
-        I'm Pasha
-    </h2>
-    <h3 style='color: green; text-align: center; font-family: Roboto;'>
-        I'm 25
-    </h3>
-    <h4 style='color: blue; text-align: center;'>
-        I'm Ann
-    </h4>
-    <p>
-        I like Python
-    </p>
-    <p>
-        I like to write code every day :D
-    </p>
-    <a href="manage.py"> My code</a>
-</div>
-<p> Books</p>
 
-    <ul>
-        <li>{{ book1 }}</li>
-        <li>{{ book2 }}</li>
-        <li>{{ book3 }}</li>
-    </ul>
+<p class="books"> This is a list of all Books:</p>
+
 <div>
     <ul>
     {% for book in books %}
