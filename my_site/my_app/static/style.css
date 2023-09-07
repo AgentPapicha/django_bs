@@ -1,0 +1,60 @@
+a{
+text-decoration: none;
+color: #005d89;
+}
+
+body{
+    background-color: #fcd7b6;
+}
+
+h1{
+    color: #243f4d;
+    font-family: 'Rubik-Medium', sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    text-align: center;
+    font-size: 60px;
+}
+
+.books{
+font-family: 'DMSans-Bold', sans-serif;
+color: #191919;
+font-size: 36px;
+margin-bottom: 5px;
+margin-left: 20px;
+}
+
+ul{
+font-family: 'Rubik-Regular', sans-serif;
+font-weight: 400;
+font-size: 22px;
+color: #243f4d;
+margin-top: 5px;
+}
+
+.menu{
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding-left: 180px;
+padding-right: 180px;
+margin-bottom: 25px;
+font-family: 'Rubik-Regular', sans-serif;
+font-size: 22px;
+background-color: #dee3e2;
+}
+
+.menu__item{
+padding-left: 20px;
+}
+
+.menu_store{
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding-left: 180px;
+padding-right: 180px;
+font-family: 'Rubik-Regular', sans-serif;
+font-size: 22px;
+background-color: #dee3e2;
+}

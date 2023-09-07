@@ -1,0 +1,66 @@
+<!Doctype HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books with authors</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+    <title>
+        All Books
+    </title>
+<body>
+<h1 style='font-size: 52px; color: #243f4d; text-align: center;'>
+    Hello world
+</h1>
+    <nav class="menu">
+      <a class="menu__item" href="http://127.0.0.1:8000/my_app/books">All books</a>
+        <a class="menu__item" href="http://127.0.0.1:8000/my_app/books/first_three_books">First three books</a>
+        <a class="menu__item" href="http://127.0.0.1:8000/my_app/books/expensive">Expensive books</a>
+        <a class="menu__item" href="http://127.0.0.1:8000/my_app/books/with_authors">Books with authors</a>
+        <a class="menu__item" href="http://127.0.0.1:8000/my_app/authors">Authors</a>
+        <a class="menu__item" href="http://127.0.0.1:8000/my_app/authors/expensive_books">Authors with expensive books</a>
+    </nav>
+
+    <nav class="menu_store">
+      <a class="menu__item" href="http://127.0.0.1:8000/my_app/stores">Stores</a>
+        <a class="menu__item" href="http://127.0.0.1:8000/my_app/stores/expensive_books">Stores with expensive books</a>
+        <a class="menu__item" href="http://127.0.0.1:8000/my_app/publishers">Publishers</a>
+        <a class="menu__item" href="http://127.0.0.1:8000/my_app/publishers/expensive_books">Publishers with expensive books</a>
+    </nav>
+<div style="background-image: url(/home/admin01/PycharmProjects/th.jpg)">
+    <h2 style='color: purple; text-align: center;'>
+        I'm Pasha
+    </h2>
+    <h3 style='color: green; text-align: center; font-family: Roboto;'>
+        I'm 25
+    </h3>
+    <h4 style='color: blue; text-align: center;'>
+        I'm Ann
+    </h4>
+    <p>
+        I like Python
+    </p>
+    <p>
+        I like to write code every day :D
+    </p>
+    <a href="manage.py"> My code</a>
+</div>
+<p> Books</p>
+
+    <ul>
+        <li>{{ book1 }}</li>
+        <li>{{ book2 }}</li>
+        <li>{{ book3 }}</li>
+    </ul>
+<div>
+    <ul>
+    {% for book in books %}
+    <li>{{ book }}</li>
+    {% endfor %}
+    </ul>
+</div>
+    </body>
+</html>

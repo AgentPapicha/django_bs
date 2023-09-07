@@ -1,0 +1,65 @@
+<!-- Lesson "Django Templates" -->
+<!DOCTYPE html>
+<html lang="en">
+<title>My page</title>
+<head>
+    <style>
+    body {
+      background-color: rgba(255, 0, 0, 0.5);
+    }
+    </style>
+        {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <h1>Hello world!</h1>
+        <nav class="menu">
+      <a class="menu__item" href="http://127.0.0.1:8000/my_app/books">All books</a>
+        <a class="menu__item" href="http://127.0.0.1:8000/my_app/books/first_three_books">First three books</a>
+        <a class="menu__item" href="http://127.0.0.1:8000/my_app/books/expensive">Expensive books</a>
+        <a class="menu__item" href="http://127.0.0.1:8000/my_app/books/with_authors">Books with authors</a>
+        <a class="menu__item" href="http://127.0.0.1:8000/my_app/authors">Authors</a>
+        <a class="menu__item" href="http://127.0.0.1:8000/my_app/authors/expensive_books">Authors with expensive books</a>
+    </nav>
+
+    <nav class="menu_store">
+      <a class="menu__item" href="http://127.0.0.1:8000/my_app/stores">Stores</a>
+        <a class="menu__item" href="http://127.0.0.1:8000/my_app/stores/expensive_books">Stores with expensive books</a>
+        <a class="menu__item" href="http://127.0.0.1:8000/my_app/publishers">Publishers</a>
+        <a class="menu__item" href="http://127.0.0.1:8000/my_app/publishers/expensive_books">Publishers with expensive books</a>
+    </nav>
+    <div>
+        <h2>I'm Alex</h2>
+        <h3>I'm 34</h3>
+        <p>I love Python</p>
+        <p style="color:rgb(200, 255, 0);">I like to write code every day :)</p>
+        <a href="../../django_orm_4.py">My code</a>
+        <p>My favourite languages</p>
+        <ul>
+            <li>Python</li>
+            <li>Rust</li>
+            <li>Java</li>
+        </ul>
+    </div>
+    <div>
+        <h2>I'm Ann</h2>
+        <h3>I'm 32</h3>
+    </div>
+    <div>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Age</th>
+          </tr>
+          <tr>
+            <td>Alex</td>
+            <td>34</td>
+          </tr>
+          <tr>
+            <td>Ann</td>
+            <td>32</td>
+          </tr>
+        </table>
+    </div>
+</body>
+</html>

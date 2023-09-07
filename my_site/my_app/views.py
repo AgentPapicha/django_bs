@@ -6,6 +6,7 @@ from django.http import HttpResponse, HttpRequest, HttpResponseNotFound
 from my_app.models import Book, Store, Author, Publisher
 from my_app.utils import query_debugger
 from django.db.models import Prefetch, Subquery
+from django.shortcuts import render
 
 logging.basicConfig(
     format="%(asctime)s.%(msecs)03d %(levelname)s "
@@ -32,14 +33,18 @@ def _get_all_books():
     мы получаем доступ к издателю, который выполняет другой отдельный запрос.
     Давайте изменим запрос с помощью select_related следующим образом и посмотрим, что произойдет.
     """
-    queryset = Book.objects.select_related("publisher")
+    queryset = (
+        Book.objects.select_related("publisher")
+                    .prefetch_related('authors')
+    )
     logger.warning(f"SQL: {str(queryset.query)}")
 
     return [
         {
             'id': book.id, 'name': book.name,
             # here the additional SQL query is executed to get a publisher name
-            'publisher': book.publisher.name
+            'publisher': book.publisher.name,
+            'authors': ", ".join([str(a) for a in book.authors.all()])
         }
         for book in queryset
     ]
@@ -232,7 +237,7 @@ def _get_all_publishers():
     return publishers_with_books
 
 
-@query_debugger(django_logger)
+@query_debugger(logger)
 def _get_publishers_with_expensive_books():
     """
     Lesson 4: SubQuery example
@@ -255,7 +260,35 @@ def _get_publishers_with_expensive_books():
 # ENDPOINTS
 def get_all_books(request: HttpRequest) -> HttpResponse:
     books_list = _get_all_books()
-    return HttpResponse(f"All Books from Stores:\n {books_list}")
+    # return HttpResponse(f"All Books from Stores:\n {books_list}")
+    return render(
+        request,
+        template_name="books.html",
+        context={
+            'books': books_list
+        }
+    )
+
+# def get_first_three_books(request: HttpRequest) -> HttpResponse:    #first version of func
+#     match _get_all_books()[:3]:
+#         case book1, book2, book3:
+#             context = {
+#                 'book1': book1,
+#                 'book2': book2,
+#                 'book3': book3,
+#             }
+#         case _:
+#             context = {
+#                 'book1': None,
+#                 'book2': None,
+#                 'book3': None,
+#             }
+#
+#     return render(
+#         request,
+#         template_name="books.html",
+#         context=context
+#     )
 
 
 def get_all_stores(request: HttpRequest) -> HttpResponse:
@@ -290,7 +323,7 @@ def get_book_by_id(request: HttpRequest, book_id: int) -> HttpResponse:
 
 
 def hello(request: HttpRequest) -> HttpResponse:
-    return HttpResponse(f"Hello World!")
+    return render(request, template_name="index.html")
 
 
 def get_expensive_books(request: HttpRequest) -> HttpResponse:
@@ -341,4 +374,100 @@ def get_author_by_id(request: HttpRequest, author_id: int) -> HttpResponse:
         return HttpResponseNotFound(
             f"<h2 style='font-size: 52px; color: red; text-align: center;'> Author by id:{author_id} is not found</h2>"
         )
-    return HttpResponse(f"<h1>Found Author: {author}, authors: <h2><p></h1>")
+    author_books = Author.objects.prefetch_related('books')
+    author_cur_books = []
+    for b in author_books:
+        books = [book.name for book in b.books.all()]
+        author_cur_books.append(
+            {'id': b.id, 'books': books}
+        )
+        return b
+    return HttpResponse(f"<h1>Found Author: {author}, books: {author_books} <h2><p></h1>")
+
+
+
+# ---------- Lesson DJANGO TEMPLATES ----------- #
+
+
+def hello_v2(request: HttpRequest) -> HttpResponse:
+    """
+    Lesson "Django Templates"
+    """
+    return render(request, "index.html")
+
+
+def get_first_three_books(request: HttpRequest) -> HttpResponse:
+    """
+    Lesson "Django Templates"
+    """
+    keys = ('book1', 'book2', 'book3')
+    not_found = 'Not Found'
+
+    match _get_all_books()[:3]:
+        case book1, book2, book3:
+            context = dict(zip(keys, (book1, book2, book3)))
+        case book1, book2:
+            context = dict(zip(keys, (book1, book2, not_found)))
+        case book1, *_:
+            context = dict(zip(keys, (book1, not_found, not_found)))
+        case _:
+            context = dict.fromkeys(keys, not_found)
+
+    return render(
+        request,
+        "books1.html",
+        context=context
+    )
+
+
+def get_all_books_v2(request: HttpRequest) -> HttpResponse:
+    """
+    Lesson "Django Templates"
+    """
+    books_list = _get_all_books()
+
+    return render(
+        request,
+        "books2.html",
+        context={
+            'books': books_list
+        }
+    )
+
+
+# ---------- Lesson DJANGO TEMPLATES: HOMEWORK ----------- #
+
+@query_debugger(logger)
+def _get_only_books_with_authors():
+    """
+    Lesson "Django Templates" Homework
+    """
+    queryset = (
+        Book.objects.select_related("publisher")
+                    .prefetch_related('authors')
+                    .filter(authors__isnull=False)
+    )
+    logger.warning(f"SQL: {str(queryset.query)}")
+
+    return [
+        {
+            'id': book.id, 'name': book.name,
+            # here the additional SQL query is executed to get a publisher name
+            'publisher': book.publisher.name,
+            'authors': ", ".join([str(a) for a in book.authors.all()])
+        }
+        for book in queryset
+    ]
+    pass
+
+
+def get_only_books_with_authors(request: HttpRequest) -> HttpResponse:
+    books_with_authors_list = _get_only_books_with_authors()
+    # return HttpResponse(f"All Books from Stores:\n {books_list}")
+    return render(
+        request,
+        template_name="books3.html",
+        context={
+            'books': books_with_authors_list
+        }
+    )

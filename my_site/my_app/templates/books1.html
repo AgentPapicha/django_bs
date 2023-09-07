@@ -1,0 +1,40 @@
+<!-- Lesson "Django Templates" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>FIRST THREE BOOKS</title>
+    <style>
+    body {
+      background-color: rgba(255, 0, 0, 0.5);
+    }
+    </style>
+        {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <h1>FIRST THREE BOOKS</h1>
+        <nav class="menu">
+      <a class="menu__item" href="http://127.0.0.1:8000/my_app/books">All books</a>
+        <a class="menu__item" href="http://127.0.0.1:8000/my_app/books/first_three_books">First three books</a>
+        <a class="menu__item" href="http://127.0.0.1:8000/my_app/books/expensive">Expensive books</a>
+        <a class="menu__item" href="http://127.0.0.1:8000/my_app/books/with_authors">Books with authors</a>
+        <a class="menu__item" href="http://127.0.0.1:8000/my_app/authors">Authors</a>
+        <a class="menu__item" href="http://127.0.0.1:8000/my_app/authors/expensive_books">Authors with expensive books</a>
+    </nav>
+
+    <nav class="menu_store">
+      <a class="menu__item" href="http://127.0.0.1:8000/my_app/stores">Stores</a>
+        <a class="menu__item" href="http://127.0.0.1:8000/my_app/stores/expensive_books">Stores with expensive books</a>
+        <a class="menu__item" href="http://127.0.0.1:8000/my_app/publishers">Publishers</a>
+        <a class="menu__item" href="http://127.0.0.1:8000/my_app/publishers/expensive_books">Publishers with expensive books</a>
+    </nav>
+    <div>
+        <p>Books:</p>
+        <ul>
+            <li>{{ book1 }}}</li>
+            <li>{{ book2 }}}</li>
+            <li>{{ book3 }}}</li>
+        </ul>
+    </div>
+</body>
+</html>
