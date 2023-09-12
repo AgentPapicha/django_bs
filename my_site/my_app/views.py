@@ -6,7 +6,7 @@ import result
 from django.db.models import Prefetch, Subquery
 from django.http import HttpRequest, HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
-from my_app.forms import UserForm, PublisherForm
+from my_app.forms import UserForm, PublisherForm, BookForm
 from my_app.models import Author, Book, Publisher, Store, User
 from my_app.utils import query_debugger
 
@@ -493,6 +493,15 @@ def get_publisher_form(request: HttpRequest) -> HttpResponse:
     )
 
 
+def get_book_form(request: HttpRequest) -> HttpResponse:
+    form = BookForm()
+    return render(
+        request,
+        "book_form.html",
+        context={"form": form}
+    )
+
+
 def _add_user(user_dict: dict):
 
     return User.objects.create(
@@ -500,6 +509,15 @@ def _add_user(user_dict: dict):
         age=user_dict.get('age') or 18,
         gender=user_dict.get('gender') or 'female',
         nationality=user_dict.get('nationality') or 'belarus'
+    )
+
+
+def _add_book(book_dict: dict):
+
+    return Book.objects.create(
+        name=book_dict.get('name') or 'default_name',
+        price=book_dict.get('price') or 250,
+        publisher=book_dict.get('publisher') or 'default_publisher'
     )
 
 
@@ -533,3 +551,21 @@ def add_user(request: HttpRequest) -> HttpResponse:
     user = _add_user(user_data)
 
     return HttpResponse(f"User: {user}")
+
+
+def add_book(request: HttpRequest) -> HttpResponse:
+    rq_data = request.POST
+    book_data = {
+        "name": rq_data.get("name"),
+        "price": rq_data.get("price"),
+        # "publisher": rq_data.get("publisher")
+    }
+    pub_name = rq_data.get("publisher")
+
+    if pub := Publisher.objects.filter(name=rq_data.get("publisher")):
+        book_data['publisher'] = pub.first()
+    else:
+        book_data['publisher'] = _add_publisher({'name': pub_name})
+
+    book = _add_book(book_data)
+    return HttpResponse(f"The Book: {book}")

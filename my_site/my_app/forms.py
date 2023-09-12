@@ -10,3 +10,9 @@ class UserForm(forms.Form):
 
 class PublisherForm(forms.Form):
     name = forms.CharField(max_length=300)
+
+
+class BookForm(forms.Form):
+    name = forms.CharField(label='Book name', max_length=300)
+    price = forms.IntegerField(label='Book price', default=0)
+    publisher = forms.CharField(label='Book publisher', max_length=300)

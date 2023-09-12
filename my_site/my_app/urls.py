@@ -25,4 +25,7 @@ urlpatterns = [
 
     path('publisher/create', views.get_publisher_form),
     path('publisher/save', views.add_publisher),
+
+    path('book/create', views.get_book_form),
+    path('book/save', views.add_book)
 ]
