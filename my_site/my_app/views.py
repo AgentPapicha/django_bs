@@ -1,12 +1,14 @@
 import dataclasses
 import logging
 import sys
+import result
 
-from django.http import HttpResponse, HttpRequest, HttpResponseNotFound
-from my_app.models import Book, Store, Author, Publisher
-from my_app.utils import query_debugger
 from django.db.models import Prefetch, Subquery
+from django.http import HttpRequest, HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
+from my_app.forms import UserForm, PublisherForm
+from my_app.models import Author, Book, Publisher, Store, User
+from my_app.utils import query_debugger
 
 logging.basicConfig(
     format="%(asctime)s.%(msecs)03d %(levelname)s "
@@ -471,3 +473,60 @@ def get_only_books_with_authors(request: HttpRequest) -> HttpResponse:
             'books': books_with_authors_list
         }
     )
+
+
+def get_user_form(request: HttpRequest) -> HttpResponse:
+    form = UserForm()
+    return render(
+        request,
+        "user_form.html",
+        context={"form": form}
+    )
+
+
+def get_publisher_form(request: HttpRequest) -> HttpResponse:
+    form = PublisherForm()
+    return render(
+        request,
+        "publisher_form.html",
+        context={"form": form}
+    )
+
+
+def _add_user(user_dict: dict):
+
+    return User.objects.create(
+        name=user_dict.get('name') or 'default_name',
+        age=user_dict.get('age') or 18,
+        gender=user_dict.get('gender') or 'female',
+        nationality=user_dict.get('nationality') or 'belarus'
+    )
+
+
+def _add_publisher(pub_name: dict):
+
+    return Publisher.objects.create(
+        name=pub_name.get('name') or 'default_name'
+    )
+
+
+def add_publisher(request: HttpRequest) -> HttpResponse:
+    rq_data = request.POST
+    pub_name = rq_data.get("name", "default_name")
+    pub_data = {"name": pub_name}
+    publisher = _add_publisher(pub_data)
+
+    return HttpResponse(f"Publisher: {publisher}")
+
+
+def add_user(request: HttpRequest) -> HttpResponse:
+    rq_data = request.POST
+    user_data = {
+        "name": rq_data.get("name"),
+        "age": rq_data.get("age"),
+        "gender": rq_data.get("gender"),
+        "nationality": rq_data.get("nationality")
+    }
+    user = _add_user(user_data)
+
+    return HttpResponse(f"User: {user}")

@@ -3,6 +3,13 @@ text-decoration: none;
 color: #005d89;
 }
 
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+
 body{
     background-color: #fcd7b6;
 }
@@ -58,3 +65,13 @@ font-family: 'Rubik-Regular', sans-serif;
 font-size: 22px;
 background-color: #dee3e2;
 }
+
+.form{
+
+display: flex;
+
+
+font-family: 'Rubik-Regular', sans-serif;
+font-size: 22px;
+}
+

@@ -18,5 +18,11 @@ urlpatterns = [
     path('publishers', views.get_all_publishers),
     path('publishers/publisher/<publisher_id>', views.get_publisher_by_id),
     path('publishers/expensive_books', views.get_publishers_with_expensive_books),
-    path('books/book/<int:book_id>', views.get_book_by_id)
+    path('books/book/<int:book_id>', views.get_book_by_id),
+
+    path('user/create', views.get_user_form),
+    path('user/save', views.add_user),
+
+    path('publisher/create', views.get_publisher_form),
+    path('publisher/save', views.add_publisher),
 ]
