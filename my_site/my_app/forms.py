@@ -14,5 +14,5 @@ class PublisherForm(forms.Form):
 
 class BookForm(forms.Form):
     name = forms.CharField(label='Book name', max_length=300)
-    price = forms.IntegerField(label='Book price', default=0)
+    price = forms.IntegerField(label='Book price')
     publisher = forms.CharField(label='Book publisher', max_length=300)
