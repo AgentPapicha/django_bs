@@ -514,8 +514,11 @@ def add_publisher(request: HttpRequest) -> HttpResponse:
     rq_data = request.POST
     pub_name = rq_data.get("name", "default_name")
     pub_data = {"name": pub_name}
-    publisher = _add_publisher(pub_data)
 
+    if Publisher.objects.filter(name=pub_name).exists():
+        return HttpResponse(f"Publisher with name {pub_name} already exists.")
+
+    publisher = _add_publisher(pub_data)
     return HttpResponse(f"Publisher: {publisher}")
 
 
