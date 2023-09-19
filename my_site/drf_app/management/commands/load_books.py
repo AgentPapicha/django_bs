@@ -1,6 +1,6 @@
 import random
 from django.core.management.base import BaseCommand
-from my_app.models import Publisher, Store, Book
+from drf_app.models import Publisher, Store, Book, Author
 
 
 class Command(BaseCommand):
@@ -35,3 +35,19 @@ class Command(BaseCommand):
             store = Store.objects.create(name=f"Store{i+1}")
             store.books.set(temp_books)
             store.save()
+
+        a1, a2, a3, a4, a5 = [
+            Author.objects.create(
+                first_name=f"Author_{i}_name",
+                last_name=f"Author_{i}_surname",
+                email=f"author.{i}@gmail.com"
+            )
+            for i in range(1, 6)
+        ]
+
+        b1, b2, b3, b4, b5 = Book.objects.all()[:5]
+        b1.authors.add(a1, a2)
+        b2.authors.add(a3, a4)
+        b3.authors.add(a5)
+        b4.authors.add(a1, a3, a5)
+        b5.authors.add(a2, a4)
