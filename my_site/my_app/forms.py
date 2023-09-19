@@ -9,7 +9,7 @@ class UserForm(forms.Form):
 
 
 class PublisherForm(forms.Form):
-    name = forms.CharField(max_length=300)
+    name = forms.CharField(label='Publisher name', max_length=300)
 
 
 class BookForm(forms.Form):
