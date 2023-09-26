@@ -93,10 +93,17 @@ class BookSerializer(serializers.ModelSerializer):
         pub_serializer = PublisherSerializer(data=validated_data["publisher"])
         if pub_serializer.is_valid():
             new_pub = pub_serializer.save()
-            validated_data.pop = Publisher.objects.filter.first()
+            # validated_data.pop = Publisher.objects.filter.first()
 
-
-        authors_data = validated_data.pop('authors')
+        # authors_data = validated_data.pop('authors')
+        authors = []
+        for author_data in validated_data:
+            author_serializer = AuthorSerializer(data=validated_data["author"])
+            if author_serializer.is_valid():
+                author = author_serializer.save()
+                authors.append(author)
+            else:
+                raise serializers.ValidationError("Error creating author")
         return Book.objects.create(**validated_data)
 
     def update(self, instance, validated_data):

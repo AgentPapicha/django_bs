@@ -10,6 +10,8 @@ from my_app.forms import UserForm, PublisherForm, BookForm
 from my_app.models import Author, Book, Publisher, Store, User
 from my_app.utils import query_debugger
 
+from django.views.decorators.cache import cache_page
+
 logging.basicConfig(
     format="%(asctime)s.%(msecs)03d %(levelname)s "
            "[%(name)s:%(funcName)s:%(lineno)s] -> %(message)s",
@@ -293,6 +295,7 @@ def get_all_books(request: HttpRequest) -> HttpResponse:
 #     )
 
 
+@cache_page(60)
 def get_all_stores(request: HttpRequest) -> HttpResponse:
     stores_list = _get_all_stores()
     return HttpResponse(f"All Stores:\n {stores_list}")
